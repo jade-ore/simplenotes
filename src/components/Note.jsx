@@ -1,5 +1,9 @@
 function Note({title, desc, note_id}) {
 
+    const handleDelete = async () => {
+            
+    }
+
     return(
         <div className="bg-slate-200 m-3 p-2 rounded">
             <div className="flex justify-between"> 
