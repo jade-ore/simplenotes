@@ -20,12 +20,18 @@ function Notes() {
 
     const fetch_notes = async () => {
         const {data, error} = await supabase.from('Notes').select('*')
+        if (error) {
+            console.warn("fetching data error: ", error)
+        } else {
+            setNotes(data)
+        }
     }
 
     useEffect(() => {
         getSession()
         const interval = setInterval(() => {
             fetch_notes()
+            console.log("this happne")
         }, 1000)
 
         return () => clearInterval(interval)
@@ -47,8 +53,10 @@ function Notes() {
                 </form>
             </div>
 
-            <div id="notes-list">
-                <Note title="hello" desc="aio"></Note>
+            <div className="grid md:grid-cols-2">
+                {notes ? notes.map((note) => (
+                    <Note key={note.id} title={note.title} desc={note.description} note_id={note.id}></Note>
+                )) : <></>}
             </div>
         </>
     )
