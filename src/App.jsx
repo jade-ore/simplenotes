@@ -21,14 +21,14 @@ function App() {
     const {error} = await supabase.auth.signOut()
     if (error) {
       console.warn("signout error: ", error)
-      setSession(null)
-    } 
+    }
+    setSession(null) 
   }
+
 
   return (
     <>
       {session ? <> 
-        
       <Header handleSignout={handleSignout}/>
       <Notes></Notes>
       </> : <Login setSession={setSession} />}

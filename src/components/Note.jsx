@@ -1,22 +1,58 @@
+import { useState } from "react"
 import supabase from "./supabase"
 
 function Note({title, desc, note_id}) {
 
+    const [editMode, setEditMode] = useState(false)
+    const [noteInfo, setNoteInfo] = useState({title: title, description: desc})
+    const [editedInfo, setEditedInfo] = useState({title: "", description: ""})
+
     const handleDelete = async () => {
+        const {error} = await supabase.from("Notes").delete().eq("id", note_id)
+        if (error) {
+            console.warn("error deleting: ", error)
+        }
+    }
+
+    const editTitle = (e) => {
+        setEditedInfo(prev => ({
+            ...prev,
+            title: e.target.value
+        }))
+    }
+
+    const editDescription = (e) => {
+        setEditedInfo(prev => ({
+            ...prev,
+            description: e.target.value
+        }))
             
     }
 
     return(
-        <div className="bg-slate-200 m-3 p-2 rounded">
+        <div className="bg-slate-200 m-3 p-2 rounded flex-col">
             <div className="flex justify-between"> 
-                <p className="break-words font-bold text-xl">{title}</p>
+                {editMode ? <input onChange={editTitle} className="bg-slate-200 outline-slate-400 outline-2 rounded h-7 px-2 mb-2 mr-2 flex-grow"></input> : <p className="break-words font-bold text-xl">{noteInfo.title}</p>}
                 <div className="space-x-1">
-                    <button className="bg-slate-600 hover:bg-slate-500 active:bg-slate-600 text-white px-2 font-bold rounded">Edit</button>
-                    <button onClick={handleDelete} className="bg-slate-600 hover:bg-slate-500 active:bg-slate-600 text-white px-2 font-bold rounded">Delete</button>
+                    {editMode ? <button onClick={() => {
+                        setNoteInfo(editedInfo)
+                        setEditedInfo({title: "", description: ""})
+                        setEditMode(false)
+                    }} className="
+                            bg-slate-600 hover:bg-slate-500 active:bg-slate-600 
+                            text-white px-2 
+                            font-bold rounded">Finish Editing</button> : <>
+                        <button onClick={() => setEditMode(true)} className="
+                            bg-slate-600 hover:bg-slate-500 active:bg-slate-600 
+                            text-white px-2 
+                            font-bold rounded">Edit</button>
+                        <button onClick={handleDelete} className="bg-slate-600 hover:bg-slate-500 active:bg-slate-600 text-white px-2 font-bold rounded">Delete</button>
+                    </>}
+
                 </div>
             </div> 
             <hr></hr>
-            <p className="break-words">{desc}</p>
+            {editMode ? <textarea onChange={editDescription} className="bg-slate-200 w-full outline-slate-400 outline-2 rounded h-7 px-2 mt-3"></textarea> : <p className="break-words">{noteInfo.description}</p>}
         </div>
     )
 }
