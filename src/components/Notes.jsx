@@ -52,7 +52,7 @@ function Notes() {
                 </form>
             </div>
 
-            <div>
+            <div className="grid md:grid-cols-2">
                 {notes ? notes.map((note) => (
                     <Note key={note.id} title={note.title} desc={note.description} note_id={note.id}></Note>
                 )) : <></>}

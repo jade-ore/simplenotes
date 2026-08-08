@@ -3,10 +3,10 @@ import supabase from "./supabase"
 function Note({title, desc, note_id}) {
 
     const handleDelete = async () => {
-        const {error} = await supabase.from("Notes").delete().eq("id", note_id)
+            
     }
-    
-    return (
+
+    return(
         <div className="bg-slate-200 m-3 p-2 rounded">
             <div className="flex justify-between"> 
                 <p className="break-words font-bold text-xl">{title}</p>
