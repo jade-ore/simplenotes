@@ -1,16 +1,18 @@
+import supabase from "./supabase"
+
 function Note({title, desc, note_id}) {
 
     const handleDelete = async () => {
-            
+        const {error} = await supabase.from("Notes").delete().eq("id", note_id)
     }
-
-    return(
+    
+    return (
         <div className="bg-slate-200 m-3 p-2 rounded">
             <div className="flex justify-between"> 
                 <p className="break-words font-bold text-xl">{title}</p>
                 <div className="space-x-1">
-                    <button className="bg-slate-600 text-white px-2 font-bold rounded">Edit</button>
-                    <button className="bg-slate-600 text-white px-2 font-bold rounded">Delete</button>
+                    <button className="bg-slate-600 hover:bg-slate-500 active:bg-slate-600 text-white px-2 font-bold rounded">Edit</button>
+                    <button onClick={handleDelete} className="bg-slate-600 hover:bg-slate-500 active:bg-slate-600 text-white px-2 font-bold rounded">Delete</button>
                 </div>
             </div> 
             <hr></hr>

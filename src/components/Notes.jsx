@@ -31,7 +31,6 @@ function Notes() {
         getSession()
         const interval = setInterval(() => {
             fetch_notes()
-            console.log("this happne")
         }, 1000)
 
         return () => clearInterval(interval)
