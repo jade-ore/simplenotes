@@ -1,47 +1,27 @@
 import { useEffect, useState } from "react";
-import Note from './Note'
+import Note from './NoteDemo'
 import supabase from "./supabase";
 
-function Notes() {
+function NotesDemo() {
 
     const [currentTitle, setCurrentTitle] = useState("")
     const [currentDescription, setCurrentDescription] = useState("")
-    const [session, setSession] = useState(null)
-    const [notes, setNotes] = useState(null)
+    const [notes, setNotes] = useState([])
 
-    const getSession = async () => {
-        const {data, error} = await supabase.auth.getSession()
-        if (error) {
-            console.warn("error in getting session: ", error)
-        } else {
-            setSession(data.session)
-        }
-    }
-
-    const fetch_notes = async () => {
-        const {data, error} = await supabase.from('Notes').select('*')
-        if (error) {
-            console.warn("fetching data error: ", error)
-        } else {
-            setNotes(data)
-        }
-    }
-
-    useEffect(() => {
-        getSession()
-        const interval = setInterval(() => {
-            fetch_notes()
-        }, 1000)
-
-        return () => clearInterval(interval)
-    }, [])
-
-    const handleNewNote = async (e) => {
+    const handleNewNote = () => {
         e.preventDefault()
-        await supabase.from('Notes').insert({user_id: session.user.id, title: currentTitle, description: currentDescription})
-        fetch_notes()
+        setNotes((prev) => [...prev, {title: currentTitle, description: currentDescription}])
         setCurrentTitle("")
         setCurrentDescription("")
+    }
+
+    const deleteNote = (note) => {
+        setNotes((prev) => {
+            const index = prev.indexOf(note)
+            if (index != -1) {
+                prev.splice(index, 1);
+            }
+        })
     }
 
     return(
@@ -63,4 +43,4 @@ function Notes() {
     )
 }
 
-export default Notes
+export default NotesDemo

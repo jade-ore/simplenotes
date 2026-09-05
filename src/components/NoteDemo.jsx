@@ -1,7 +1,7 @@
 import { useState } from "react"
 import supabase from "./supabase"
 
-function Note({title, desc, note_id}) {
+function NoteDemo({title, desc, note_id}) {
 
     const [editMode, setEditMode] = useState(false)
     const [noteInfo, setNoteInfo] = useState({title: title, description: desc})
