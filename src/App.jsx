@@ -3,10 +3,13 @@ import Login from './components/Login'
 import supabase from './components/supabase'
 import Notes from './components/Notes'
 import Header from './components/Header'
+import NotesDemo from './components/NotesDemo'
+import HeaderDemo from './components/HeaderDemo'
 
 function App() {
  
   const [session, setSession] = useState(null)
+  const [demoActive, setDemoActive] = useState(false)
 
   const getSession = async () => {
     const { data, error } = await supabase.auth.getSession()
@@ -25,13 +28,24 @@ function App() {
     setSession(null) 
   }
 
+  const switchDemo = () => {
+    setDemoActive((prev) => !prev)
+  }
+
+  
+
 
   return (
     <>
-      {session ? <> 
-      <Header handleSignout={handleSignout}/>
-      <Notes></Notes>
-      </> : <Login setSession={setSession} />}
+      {demoActive ?
+      <>
+        <HeaderDemo handleSignout={switchDemo}></HeaderDemo>
+        <NotesDemo></NotesDemo>
+      </> : session ? <>
+        <Header handleSignout={handleSignout} />
+        <Notes></Notes>
+      </> : <Login setSession={setSession} switchDemo={switchDemo} />
+      }
     </>
   )
 }

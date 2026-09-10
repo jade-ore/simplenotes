@@ -2,7 +2,7 @@ import { useState } from "react";
 import supabase from "./supabase";
 import Header from "./Header";
 
-function Login({setSession}) {
+function Login({setSession, switchDemo}) {
     
     const [isSignIn, setIsSignIn] = useState(true)
     const [currentEmail, setCurrentEmail] = useState("")
@@ -51,8 +51,10 @@ function Login({setSession}) {
                     setIsSignIn(prev => !prev)
                     setIsSubmitted(false)
                 }} className="px-3 mb-1 bg-slate-600 hover:bg-slate-500 rounded font-bold text-white" type="button">{"Switch to " + (isSignIn ? "Sign up" : "Sign in")}</button>
+                <button className="px-3 mb-1 active:bg-slate-600 bg-slate-600 hover:bg-slate-500 rounded font-bold text-white" type="button" onClick={switchDemo}>Tool Demo</button>
             </form>
         </div>
+
     )
 }
 

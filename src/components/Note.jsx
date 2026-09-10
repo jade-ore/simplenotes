@@ -27,7 +27,6 @@ function Note({title, desc, note_id}) {
             ...prev,
             description: e.target.value
         }))
-            
     }
 
     return(
@@ -44,7 +43,7 @@ function Note({title, desc, note_id}) {
                             font-bold rounded">Finish Editing</button> : <>
                         <button onClick={() => {
                             setEditMode(true)
-                            setEditedInfo(noteinf)
+                            setEditedInfo(noteInfo)
                         }} className="
                             bg-slate-600 hover:bg-slate-500 active:bg-slate-600 
                             text-white px-2 
@@ -60,4 +59,4 @@ function Note({title, desc, note_id}) {
     )
 }
 
-export default NoteDemo
+export default Note

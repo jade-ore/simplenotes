@@ -1,19 +1,11 @@
 import { useState } from "react"
 import supabase from "./supabase"
 
-function NoteDemo({title, desc, note_id}) {
+function NoteDemo({title, desc, deleteSelf}) {
 
     const [editMode, setEditMode] = useState(false)
     const [noteInfo, setNoteInfo] = useState({title: title, description: desc})
     const [editedInfo, setEditedInfo] = useState({title: "", description: ""})
-
-
-    const handleDelete = async () => {
-        const {error} = await supabase.from("Notes").delete().eq("id", note_id)
-        if (error) {
-            console.warn("error deleting: ", error)
-        }
-    }
 
     const editTitle = (e) => {
         setEditedInfo(prev => ({
@@ -44,12 +36,12 @@ function NoteDemo({title, desc, note_id}) {
                             font-bold rounded">Finish Editing</button> : <>
                         <button onClick={() => {
                             setEditMode(true)
-                            setEditedInfo(noteinf)
+                            setEditedInfo(noteInfo)
                         }} className="
                             bg-slate-600 hover:bg-slate-500 active:bg-slate-600 
                             text-white px-2 
                             font-bold rounded">Edit</button>
-                        <button onClick={handleDelete} className="bg-slate-600 hover:bg-slate-500 active:bg-slate-600 text-white px-2 font-bold rounded">Delete</button>
+                        <button onClick={deleteSelf} className="bg-slate-600 hover:bg-slate-500 active:bg-slate-600 text-white px-2 font-bold rounded">Delete</button>
                     </>}
 
                 </div>
